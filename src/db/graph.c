@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "graph.h"
 
@@ -101,4 +102,45 @@ graph_print(graph_t g, int with_tuples)
 			printf(",");
 	}
 	printf("})");
+}
+
+void
+graph_transpose(graph_t g)
+{
+	printf("ENTERED: graph_transpose\n" );
+	
+	printf("Original graph\n");
+	graph_print(g, 0);
+	
+	vertex_t v;
+	graph_t gt;
+	edge_t e ,et;
+
+	assert(g != NULL);
+
+	/* Create new graph */
+	gt = (graph_t) malloc(sizeof(struct graph));
+	assert (gt != NULL);
+	graph_init(gt);
+
+	for (v = g->v ; v !=NULL ; v = v->next)
+	{
+		if(v->id == 1)
+			graph_insert_vertex(gt, v);
+	}
+
+
+	for(e = g->e ; e != NULL ; e = e->next)
+	{
+		et = (edge_t) malloc(sizeof(struct edge));
+		assert (et != NULL);
+		edge_init(et);
+		edge_set_vertices(et, e->id2, e->id1);
+		graph_insert_edge(gt, et);
+	}
+
+
+	printf("\nTransposed graph\n");
+	graph_print(gt, 0);
+	printf("\n");
 }
