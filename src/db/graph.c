@@ -104,13 +104,10 @@ graph_print(graph_t g, int with_tuples)
 	printf("})");
 }
 
-void
+graph_t
 graph_transpose(graph_t g)
 {
-	printf("ENTERED: graph_transpose\n" );
-	
-	printf("Original graph\n");
-	graph_print(g, 0);
+	//printf("ENTERED: graph_transpose\n" );
 	
 	vertex_t v;
 	graph_t gt;
@@ -139,8 +136,22 @@ graph_transpose(graph_t g)
 		graph_insert_edge(gt, et);
 	}
 
+	return gt;
 
-	printf("\nTransposed graph\n");
-	graph_print(gt, 0);
-	printf("\n");
+
+}
+
+int 
+graph_count_vertices(graph_t g)
+{
+	int count = 0;
+	vertex_t v;
+
+	for(v = g->v ; v != NULL ; v = v->next)
+	{
+		count++;
+	}
+
+	return count;
+
 }

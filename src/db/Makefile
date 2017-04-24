@@ -10,7 +10,8 @@ OBJS =	edge.o			\
 	tuple_set.o		\
 	tuple_util.o		\
 	vertex.o		\
-	vertexid.o
+	vertexid.o		\
+	stack.o			\
 
 TGT = libdb.a
 

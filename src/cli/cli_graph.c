@@ -10,7 +10,7 @@ void cli_graph_new(char *cmdline, int *pos);
 void cli_graph_edge(char *cmdline, int *pos);
 void cli_graph_schema(char *cmdline, int *pos);
 void cli_graph_tuple(char *cmdline, int *pos);
-void cli_graph_transpose(char *cmdline, int *pos);
+void cli_graph_scc_kosaraju(char *cmdline, int *pos);
 
 static void
 cli_graph_print()
@@ -51,7 +51,7 @@ cli_graph(char *cmdline, int *pos)
 		cli_graph_tuple(cmdline, pos);
 
 	else if (strcmp(s, "k") == 0 || strcmp(s, "scc") == 0)
-		cli_graph_transpose(cmdline, pos);
+		cli_graph_scc_kosaraju(cmdline, pos);
 
 	else if (isdigit(s[0])) {
 		graph_t g;
