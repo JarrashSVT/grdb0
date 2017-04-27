@@ -155,3 +155,38 @@ graph_count_vertices(graph_t g)
 	return count;
 
 }
+
+
+/*
+	PARAMETERS: 
+*/
+vertex_t*
+graph_find_vertex_neighbors(graph_t g, vertexid_t vid, int* count)
+{
+	
+	assert (g != NULL);
+	vertex_t *neighbors = malloc(graph_count_vertices(g) * sizeof (vertex_t));
+	edge_t e;
+	int i = 0, cnt = 0;
+
+	for (e = g->e; e != NULL; e = e->next)
+	{
+		if (e->id1 == vid)
+		{
+			neighbors[i] = graph_find_vertex_by_id(g ,e->id2);
+			cnt++;
+			i++;
+			/*
+			printf("My neighbor # %d is ",i);
+			vertex_print(neighbors[i]);
+			printf("\n");
+			*/
+
+		}
+		
+		
+	}
+	*count = cnt;
+
+	return neighbors;
+}

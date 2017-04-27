@@ -62,5 +62,6 @@ void graph_insert_edge(graph_t g, edge_t e);
 void graph_print(graph_t g, int with_tuples);
 graph_t graph_transpose(graph_t g);
 int graph_count_vertices(graph_t g);
+vertex_t* graph_find_vertex_neighbors(graph_t g, vertexid_t vid, int* count);
 
 #endif
