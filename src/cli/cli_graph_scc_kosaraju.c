@@ -39,9 +39,19 @@ DFS(int i, vertex_t v, bool visited[], StackNode *stack)
 	neighbors = graph_find_vertex_neighbors(current, v->id, &num_of_neighbors);
 	//if(v != NULL)
 	//	printf("it's NOT NULL WTF!!!\n");
-	//printf("~num_of_neighbors %d\n",num_of_neighbors );
+	/////// troublshot neighobrs
+	printf("~num_of_neighbors %d\n",num_of_neighbors );
+		int index;
+	for(index = 0 ; index < num_of_neighbors ; index++)	
+	{
+		printf("neighbors[%d] is ",index);
+		vertex_print(neighbors[index]);
+		printf("\n");
+	}
+	/////////////////
 	while(v != NULL)
 	{
+		
 		if(v->next != NULL)
 		{	
 			v_next = v->next;
@@ -65,6 +75,8 @@ DFS(int i, vertex_t v, bool visited[], StackNode *stack)
 			}
 			else
 			{
+				printf("%llu already visited\n", v_next->id);
+				printf("@ i %d\n", i );
 				//printf("vertex # %llu will be added to stack\n", v->id);
 				//push(&stack, v->id);
 				//printStack(stack);
