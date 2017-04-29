@@ -14,6 +14,7 @@ OBJS =	edge.o			\
 	stack.o			\
 	vertex_with_neighbors.o	\
 	visited_map.o		\
+	api.o			\
 
 TGT = libdb.a
 

@@ -6,7 +6,7 @@
 #include "graph.h"
 #include "stack.h"
 #include <stdbool.h>
-//#include "visited_map.h"
+#include "api.h"
 
 struct visited_map
 {
@@ -184,159 +184,109 @@ DFS_SCC(vertex_t v, struct visited_map *visited, struct visited_map *added, Stac
 void
 cli_graph_scc_kosaraju(char *cmdline, int *pos)
 {
-
-	StackNode *stack;
-	stack = malloc(sizeof(stack));
-	vertex_t v;
-	//int i = 1;
-	//printf("ENTERED: cli_graph_transpose\n" );
-	graph_t transposed = graph_transpose(current);
-	graph_print(transposed, 0);
-	printf("\n");
-	int  num_of_vertices = graph_count_vertices(current);
-	int  num_of_neighbors;
-	//vertex_t *neighbors = malloc(num_of_vertices * sizeof(vertex_t)); TODAY
-
-	vertex_with_neighbors_t my_neighbors;
-	printf("num_of_vertices = %d\n",num_of_vertices );
-
-	for(v = current->v ; v != NULL ; v = v->next)
-	{
-		vertex_print(v);
-		printf("===================\n");
-		//if(v->id == 1)
-		//{
-			my_neighbors = graph_find_vertex_neighbors(current, v->id, &num_of_neighbors);
-			vertex_with_neighbors_t cursor = my_neighbors->next;
-			//cursor = cursor->next;
-
-			while(cursor != NULL)
-			{
-				vertex_with_neighbors_print(cursor);
-				cursor = cursor->next;
-			}
-			printf("num_of_neighbors %d\n",num_of_neighbors );
-		//}
-	}
-
-	
-	struct visited_map visited_list[num_of_vertices];
-	struct visited_map added_list[num_of_vertices];
-
-	/* Make all vertices as not visited */
-	//int index = 0;
-	for(v = current->v ; v != NULL ; v = v->next)
-	{
-		//mlist[v->id].id = v->id;
-		visited_list[v->id].isVisited = false;
-		added_list[v->id].isVisited = false;
-
-		if(visited_list[v->id].isVisited)
-		//printf("mlist.id %llu\n", mlist[index].id );
-		//index++;
-			printf("%llu visited\n", v->id);
-	}
-
-	//order pass
-	for(v = current->v ; v != NULL ; v = v->next)
-	{
-		printf("Going to be visit vertex # %llu\n", v->id );
-		//vertex_print(v);
-		//printf("\n");
-		if(!visited_list[v->id].isVisited)
-		{
-			DFS( v, visited_list, stack);
-		}
-		
-		//i++;
-		printf("vertex # %llu will be added to stack\n", v->id);
-		push(&stack, v->id);
-		printStack(stack);
-	}
-
-	/* Make all vertices as not visited for the 2nd DFS */
-	for(v = current->v ; v != NULL ; v = v->next)
-	{
-		visited_list[v->id].isVisited = false;
-
-		//if(!visited_list[v->id].isVisited)
-			//printf("%llu visited\n", v->id);
-	}
-
-
-	printf(" stackLenght %d\n",stackLenght(stack) );
-	while(!isEmpty(stack) && stackLenght(stack) > 1)
-	{
-		graph_t scc;
-		scc = (graph_t) malloc(sizeof(struct graph));
-		//assert (scc != NULL);
-		graph_init(scc);
-		vertexid_t dd = pop(&stack);
-
-		if(!visited_list[dd].isVisited)
-		{
-		//	printf("%llu\n", dd);
-			DFS_SCC(graph_find_vertex_by_id(transposed ,dd), visited_list,added_list, stack, scc);
-		}
-
-		graph_print(scc,0);
-		printf("\n");
-	}
-	//add(v->id, true);
-	//for(; my_neighbors != NULL ; my_neighbors = my_neighbors->next)
-	//	vertex_with_neighbors_print(my_neighbors);
-
-
-	//instructions();
-	/*
+	int num_of_normal_froms = graph_normal_form_count(current);
+	graph_t* normal_form_graphs = graph_normal_form_get(current);
 
 	int index;
-	for(index = 0 ; index < num_of_neighbors ; index++)	
+	for(index = 0 ; index < num_of_normal_froms ; index++)
 	{
-		printf("neighbors[%d] is ",index);
-		vertex_with_neighbors_print(my_neighbors);
-		//vertex_print(graph_find_vertex_by_id(current, my_neighbors->next_id));
+		StackNode *stack;
+		stack = malloc(sizeof(stack));
+		vertex_t v;
+		
+		graph_t transposed = graph_transpose(current);
+		graph_print(transposed, 0);
 		printf("\n");
-	}
+		int  num_of_vertices = graph_count_vertices(current);
+		int  num_of_neighbors;
+		//vertex_t *neighbors = malloc(num_of_vertices * sizeof(vertex_t)); TODAY
 
-	bool visited[num_of_vertices];
+		vertex_with_neighbors_t my_neighbors;
+		printf("num_of_vertices = %d\n",num_of_vertices );
 
-	for( int j = 1 ; j <= num_of_vertices ; j++)
-	{
-		visited[j] = false;
-	}
-
-	for( int j = 1 ; j <= num_of_vertices ; j++)
-	{	
-		if(!visited[j])
-		printf("%d is FALSE\n", j);
-	}
-
-	//order pass
-	for(v = current->v ; v != NULL ; v = v->next)
-	{
-		printf("Going to be visit vertex # %llu\n", v->id );
-		vertex_print(v);
-		printf("\n");
-		if(!visited[i])
+		for(v = current->v ; v != NULL ; v = v->next)
 		{
-			DFS(i , v, visited, stack);
+			vertex_print(v);
+			printf("===================\n");
+			//if(v->id == 1)
+			//{
+				my_neighbors = graph_find_vertex_neighbors(current, v->id, &num_of_neighbors);
+				vertex_with_neighbors_t cursor = my_neighbors->next;
+				//cursor = cursor->next;
+
+				while(cursor != NULL)
+				{
+					vertex_with_neighbors_print(cursor);
+					cursor = cursor->next;
+				}
+				printf("num_of_neighbors %d\n",num_of_neighbors );
+			//}
 		}
-		i++;
-printf("vertex # %llu will be added to stack\n", v->id);
-		push(&stack, v->id);
-		printStack(stack);
+
+		
+		struct visited_map visited_list[num_of_vertices];
+		struct visited_map added_list[num_of_vertices];
+
+		/* Make all vertices as not visited */
+		//int index = 0;
+		for(v = current->v ; v != NULL ; v = v->next)
+		{
+			//mlist[v->id].id = v->id;
+			visited_list[v->id].isVisited = false;
+			added_list[v->id].isVisited = false;
+
+			if(visited_list[v->id].isVisited)
+			//printf("mlist.id %llu\n", mlist[index].id );
+			//index++;
+				printf("%llu visited\n", v->id);
+		}
+
+		//order pass
+		for(v = current->v ; v != NULL ; v = v->next)
+		{
+			printf("Going to be visit vertex # %llu\n", v->id );
+			//vertex_print(v);
+			//printf("\n");
+			if(!visited_list[v->id].isVisited)
+			{
+				DFS( v, visited_list, stack);
+			}
+			
+			//i++;
+			printf("vertex # %llu will be added to stack\n", v->id);
+			push(&stack, v->id);
+			printStack(stack);
+		}
+
+		/* Make all vertices as not visited for the 2nd DFS */
+		for(v = current->v ; v != NULL ; v = v->next)
+		{
+			visited_list[v->id].isVisited = false;
+
+			//if(!visited_list[v->id].isVisited)
+				//printf("%llu visited\n", v->id);
+		}
+
+
+		printf(" stackLenght %d\n",stackLenght(stack) );
+		while(!isEmpty(stack) && stackLenght(stack) > 1)
+		{
+			graph_t scc, scc0;
+			scc = (graph_t) malloc(sizeof(struct graph));
+			scc0 = NULL;
+			//assert (scc != NULL);
+			graph_init(scc);
+			vertexid_t dd = pop(&stack);
+
+			if(!visited_list[dd].isVisited)
+			{
+			//	printf("%llu\n", dd);
+				DFS_SCC(graph_find_vertex_by_id(transposed ,dd), visited_list,added_list, stack, scc);
+			}
+			scc = graph_join(scc,scc0);
+			graph_print(scc,0);
+			printf("\n");
+		}
 	}
-
-	
-
-	for( int j = 0 ; j < num_of_vertices ; j++)
-	{
-		//printf("%d\n", pop(&stack) );
-	}
-
-	printStack(stack);
-
-	*/
 }
 
