@@ -14,3 +14,4 @@ int pop( StackNodePtr *topPtr );
 int isEmpty( StackNodePtr topPtr );
 void printStack( StackNodePtr currentPtr );
 void instructions( void );
+int stackLenght( StackNodePtr topPtr );

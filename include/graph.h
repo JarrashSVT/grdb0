@@ -41,14 +41,33 @@ struct graph {
 	struct graph *next;
 };
 
-typedef struct vertex *vertex_t;
+struct vertex_with_neighbors {
+	/* Every vertex has a unique vertex id */
+	vertexid_t id;
+
+	
+	struct vertex_with_neighbors *prev;
+	struct vertex_with_neighbors  *next;
+
+	/* Vertex tuple */
+	//tuple_t tuple;
+};
+
+typedef struct vertex_with_neighbors *vertex_with_neighbors_t;
 typedef struct edge *edge_t;
 typedef struct graph *graph_t;
-
+typedef struct vertex *vertex_t;
 
 void vertex_init(vertex_t v);
 void vertex_set_id(vertex_t v, vertexid_t id);
 void vertex_print(vertex_t v);
+
+void vertex_with_neighbors_init(vertex_with_neighbors_t vwn);
+void vertex_with_neighbors_set_id(vertex_with_neighbors_t vwn, vertexid_t id);
+void vertex_with_neighbors_print(vertex_with_neighbors_t vwn);
+vertex_with_neighbors_t vertex_with_neighbors_create(vertexid_t id , vertex_with_neighbors_t next);
+vertex_with_neighbors_t vertex_with_neighbors_prepend(vertex_with_neighbors_t head, vertexid_t id);
+vertex_with_neighbors_t vertex_with_neighbors_append(vertex_with_neighbors_t head, vertexid_t id);
 
 void edge_init(edge_t e);
 void edge_set_vertices(edge_t e, vertexid_t id1, vertexid_t id2);
@@ -62,6 +81,6 @@ void graph_insert_edge(graph_t g, edge_t e);
 void graph_print(graph_t g, int with_tuples);
 graph_t graph_transpose(graph_t g);
 int graph_count_vertices(graph_t g);
-vertex_t* graph_find_vertex_neighbors(graph_t g, vertexid_t vid, int* count);
+vertex_with_neighbors_t graph_find_vertex_neighbors(graph_t g, vertexid_t vid, int* count);
 
 #endif

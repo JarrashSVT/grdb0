@@ -74,3 +74,15 @@ int isEmpty( StackNodePtr topPtr )
 { 
   return topPtr == NULL;
 } // end function isEmpty
+
+int stackLenght( StackNodePtr topPtr )
+{
+  int len = 0;
+  while(topPtr != NULL)
+    {
+      len++;
+      topPtr = topPtr->nextPtr;
+    }
+
+    return len;
+}

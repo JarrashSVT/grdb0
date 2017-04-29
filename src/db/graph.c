@@ -4,6 +4,7 @@
 #include <string.h>
 #include "graph.h"
 
+
 void
 graph_init(graph_t g)
 {
@@ -43,6 +44,7 @@ graph_find_vertex_by_id(graph_t g, vertexid_t id)
 
 	return NULL;
 }
+
 
 edge_t
 graph_find_edge_by_ids(graph_t g, vertexid_t id1, vertexid_t id2)
@@ -157,36 +159,36 @@ graph_count_vertices(graph_t g)
 }
 
 
-/*
-	PARAMETERS: 
-*/
-vertex_t*
+
+vertex_with_neighbors_t
 graph_find_vertex_neighbors(graph_t g, vertexid_t vid, int* count)
 {
 	
 	assert (g != NULL);
-	vertex_t *neighbors = malloc(graph_count_vertices(g) * sizeof (vertex_t));
+	vertex_with_neighbors_t vwn;
+	vwn = (vertex_with_neighbors_t) malloc(sizeof(struct vertex_with_neighbors));
+	//vertex_t vertex_with_neighbors_t;
 	edge_t e;
 	int i = 0, cnt = 0;
 
+	vertex_with_neighbors_init(vwn);
+	//vertex_with_neighbors_set_id(vwn, vid);
+	
+	vwn = vertex_with_neighbors_prepend(vwn, vid);
+	//printf("1\n");
 	for (e = g->e; e != NULL; e = e->next)
 	{
+	//printf("2\n");
 		if (e->id1 == vid)
 		{
-			neighbors[i] = graph_find_vertex_by_id(g ,e->id2);
+			vwn = vertex_with_neighbors_append(vwn, e->id2);
 			cnt++;
-			i++;
-			/*
-			printf("My neighbor # %d is ",i);
-			vertex_print(neighbors[i]);
-			printf("\n");
-			*/
-
 		}
 		
 		
 	}
 	*count = cnt;
 
-	return neighbors;
+	//vertex_with_neighbors_set_id(vwn, vid);
+	return vwn->next;
 }
