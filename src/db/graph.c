@@ -167,28 +167,24 @@ graph_find_vertex_neighbors(graph_t g, vertexid_t vid, int* count)
 	assert (g != NULL);
 	vertex_with_neighbors_t vwn;
 	vwn = (vertex_with_neighbors_t) malloc(sizeof(struct vertex_with_neighbors));
-	//vertex_t vertex_with_neighbors_t;
+	
 	edge_t e;
-	int i = 0, cnt = 0;
+	int cnt = 0;
 
 	vertex_with_neighbors_init(vwn);
-	//vertex_with_neighbors_set_id(vwn, vid);
 	
 	vwn = vertex_with_neighbors_prepend(vwn, vid);
-	//printf("1\n");
+	
 	for (e = g->e; e != NULL; e = e->next)
 	{
-	//printf("2\n");
+	
 		if (e->id1 == vid)
 		{
 			vwn = vertex_with_neighbors_append(vwn, e->id2);
 			cnt++;
 		}
-		
-		
 	}
-	*count = cnt;
 
-	//vertex_with_neighbors_set_id(vwn, vid);
+	*count = cnt;
 	return vwn->next;
 }
