@@ -59,7 +59,7 @@ DFS( vertex_t v, struct visited_map *visited, StackNode *stack)
 }
 
 void
-DFS_SCC(vertex_t v, struct visited_map *visited, struct visited_map *added, StackNode *stack, graph_t scc)
+DFS_SCC(vertex_t v, struct visited_map *visited, StackNode *stack, graph_t scc)
 {
 	
 	//printf("~~~~~~~~~~~~~~~~~~~~~~~~~~DFS_SCC BEGIN~~~~~~~~~~~~~~~~~~~~~~~~\n");
@@ -82,7 +82,7 @@ DFS_SCC(vertex_t v, struct visited_map *visited, struct visited_map *added, Stac
 		vertex_with_neighbors_print(cursor);
 		printf("\n");
 		if(!visited[cursor->id].isVisited)
-			DFS_SCC( (vertex_t) cursor, visited,added, my_stack, scc);
+			DFS_SCC( (vertex_t) cursor, visited, my_stack, scc);
 		else
 		{
 			vertex_with_neighbors_print(cursor);
@@ -144,7 +144,7 @@ cli_graph_scc_kosaraju(char *cmdline, int *pos)
 
 		
 		struct visited_map visited_list[num_of_vertices];
-		struct visited_map added_list[num_of_vertices];
+		
 
 		/* Make all vertices as not visited */
 		
@@ -152,7 +152,7 @@ cli_graph_scc_kosaraju(char *cmdline, int *pos)
 		{
 
 			visited_list[v->id].isVisited = false;
-			added_list[v->id].isVisited = false;
+			
 
 			//if(visited_list[v->id].isVisited)
 				//printf("%llu visited\n", v->id);
@@ -194,7 +194,7 @@ cli_graph_scc_kosaraju(char *cmdline, int *pos)
 			if(!visited_list[v0].isVisited)
 			{
 			//	printf("%llu\n", v0);
-				DFS_SCC(graph_find_vertex_by_id(transposed ,v0), visited_list,added_list, stack, scc);
+				DFS_SCC(graph_find_vertex_by_id(transposed ,v0), visited_list, stack, scc);
 			}
 			scc = graph_join(scc,scc0);
 			graph_print(scc,0);
